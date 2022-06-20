@@ -2,6 +2,7 @@ import functools
 
 from test_framework import generic_test
 from test_framework.test_utils import enable_executor_hook
+from collections import deque
 
 
 class BinaryTreeNode:
@@ -13,8 +14,24 @@ class BinaryTreeNode:
 
 
 def construct_right_sibling(tree: BinaryTreeNode) -> None:
-    # TODO - you fill in here.
-    return
+    if not tree:
+        return
+    que = deque()
+    dummy = BinaryTreeNode()
+    que.append(tree)
+    que.append(dummy)
+    while que:
+        t = que.popleft()
+        if t.left:
+            que.append(t.left)
+        if t.right:
+            que.append(t.right)
+        if que[0] is not dummy:
+            t.next = que[0]
+        else:
+            que.popleft()
+            if que:
+                que.append(dummy)
 
 
 def traverse_next(node):
@@ -35,8 +52,7 @@ def clone_tree(original):
     if not original:
         return None
     cloned = BinaryTreeNode(original.data)
-    cloned.left, cloned.right = clone_tree(original.left), clone_tree(
-        original.right)
+    cloned.left, cloned.right = clone_tree(original.left), clone_tree(original.right)
     return cloned
 
 
@@ -46,12 +62,14 @@ def construct_right_sibling_wrapper(executor, tree):
 
     executor.run(functools.partial(construct_right_sibling, cloned))
 
-    return [[n.data for n in traverse_next(level)]
-            for level in traverse_left(cloned)]
+    return [[n.data for n in traverse_next(level)] for level in traverse_left(cloned)]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(
-        generic_test.generic_test_main('tree_right_sibling.py',
-                                       'tree_right_sibling.tsv',
-                                       construct_right_sibling_wrapper))
+        generic_test.generic_test_main(
+            "tree_right_sibling.py",
+            "tree_right_sibling.tsv",
+            construct_right_sibling_wrapper,
+        )
+    )

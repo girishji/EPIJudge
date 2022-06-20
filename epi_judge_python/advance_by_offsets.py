@@ -4,7 +4,12 @@ from test_framework import generic_test
 
 
 def can_reach_end(A: List[int]) -> bool:
-    # TODO - you fill in here.
+    maxad = 0
+    for i, a in enumerate(A):
+        if a == 0 and maxad <= i and i != len(A) - 1:
+            return False
+        if a + i > maxad:
+            maxad = a + i
     return True
 
 

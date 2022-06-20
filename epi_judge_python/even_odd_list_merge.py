@@ -5,8 +5,19 @@ from test_framework import generic_test
 
 
 def even_odd_merge(L: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    ev = L
+    if L and L.next:
+        l2 = od = L.next
+    else:
+        return L
+    while ev.next and od.next:
+        ev.next = od.next
+        ev = ev.next
+        od.next = ev.next
+        od = od.next if od.next else od
+    ev.next = l2
+    od.next = None
+    return L
 
 
 if __name__ == '__main__':

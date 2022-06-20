@@ -6,10 +6,54 @@ from test_framework import generic_test
 from test_framework.test_failure import TestFailure
 from test_framework.test_utils import enable_executor_hook
 
+def prnt(l):
+    pt = l
+    print()
+    while pt.next:
+        print(pt.data, ' ', end="")
+        pt = pt.next
+    print(pt.data, ' ', end="")
+    print()
+
 
 def list_pivoting(l: ListNode, x: int) -> Optional[ListNode]:
-    # TODO - you fill in here.
-    return None
+    if not l or not l.next:
+        return l
+    dummyh = ListNode(0, l)
+    piv = prev = l
+    while piv and piv.data != x and piv.next:
+        prev = piv
+        piv = piv.next
+    last = piv
+    while last.next:
+        last = last.next
+    it, it2 = l, dummyh
+    while it and it.next and it is not piv:
+        if it.data > x:
+            it2.next = it.next
+            last.next = it
+            last = last.next
+            last.next = None
+            it = it2.next
+
+        else:
+            it2 = it
+            it = it.next
+
+    it = it2 = piv
+    while it is not last and it.next:
+        if it.data < x:
+            it2.next = it.next
+            it.next = piv
+            prev.next = it
+            prev = prev.next
+            it = it2.next
+        else:
+            it2 = it
+            it = it.next
+    prnt(dummyh.next)
+    prnt(l)
+    return l 
 
 
 def linked_to_list(l):

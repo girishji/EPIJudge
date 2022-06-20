@@ -8,8 +8,20 @@ from test_framework.test_utils import enable_executor_hook
 
 
 def find_successor(node: BinaryTreeNode) -> Optional[BinaryTreeNode]:
-    # TODO - you fill in here.
-    return None
+    if not node:
+        return None
+    if not node.right:
+        if not node.parent:
+            return None
+        successor = node.parent
+        while successor.right is node and successor.parent:
+            successor = successor.parent
+            node = node.parent
+        return successor if successor.left is node else None
+    successor = node.right
+    while successor.left:
+        successor = successor.left
+    return successor
 
 
 @enable_executor_hook
@@ -21,8 +33,9 @@ def find_successor_wrapper(executor, tree, node_idx):
     return result.data if result else -1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(
-        generic_test.generic_test_main('successor_in_tree.py',
-                                       'successor_in_tree.tsv',
-                                       find_successor_wrapper))
+        generic_test.generic_test_main(
+            "successor_in_tree.py", "successor_in_tree.tsv", find_successor_wrapper
+        )
+    )

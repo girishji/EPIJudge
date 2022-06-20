@@ -4,12 +4,17 @@ from test_framework import generic_test
 
 
 def buy_and_sell_stock_once(prices: List[float]) -> float:
-    # TODO - you fill in here.
-    return 0.0
+    minv = prices[0]
+    diff = 0
+    for i, p in enumerate(prices):
+        diff = max(p - minv, diff)
+        minv = min(p, minv)
+    return diff
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     exit(
-        generic_test.generic_test_main('buy_and_sell_stock.py',
-                                       'buy_and_sell_stock.tsv',
-                                       buy_and_sell_stock_once))
+        generic_test.generic_test_main(
+            "buy_and_sell_stock.py", "buy_and_sell_stock.tsv", buy_and_sell_stock_once
+        )
+    )

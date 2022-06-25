@@ -4,8 +4,20 @@ from test_framework import generic_test
 
 
 def intersect_two_sorted_arrays(A: List[int], B: List[int]) -> List[int]:
-    # TODO - you fill in here.
-    return []
+    i, j = 0, 0
+    res = []
+    while i < len(A) and j < len(B):
+        if A[i] < B[j]:
+            i += 1
+        elif A[i] == B[j]:
+            if not res or res[-1] != A[i]:
+                res.append(A[i])
+            i += 1
+            j += 1
+        else:
+            j += 1
+
+    return res
 
 
 if __name__ == '__main__':

@@ -16,7 +16,11 @@ class Team:
     # Checks if team0 can be placed in front of team1.
     @staticmethod
     def valid_placement_exists(team0: 'Team', team1: 'Team') -> bool:
-        # TODO - you fill in here.
+        team0._players.sort()
+        team1._players.sort()
+        for p0, p1 in zip(team0._players, team1._players):
+            if p0.height >= p1.height:
+                return False
         return True
 
 

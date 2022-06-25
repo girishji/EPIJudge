@@ -5,7 +5,6 @@ from test_framework import generic_test
 
 
 def stable_sort_list(L: ListNode) -> Optional[ListNode]:
-    # TODO - you fill in here.
     return None
 
 

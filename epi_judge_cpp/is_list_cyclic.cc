@@ -6,12 +6,38 @@
 #include "test_framework/timed_executor.h"
 using std::shared_ptr;
 
-shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>>& head) {
-  // TODO - you fill in here.
+shared_ptr<ListNode<int>> HasCycle(const shared_ptr<ListNode<int>> &head) {
+  auto slow{head}, fast{head};
+  while (slow && slow->next) {
+    slow = slow->next;
+    if (fast->next && fast->next->next) {
+      fast = fast->next->next;
+    } else {
+      break;
+    }
+    if (slow == fast) {
+      auto cycle_len = 0;
+      do {
+        cycle_len++;
+        slow = slow->next;
+      } while (slow != fast);
+      // std::cout << "len " << cycle_len << std::endl;
+      auto forward = head;
+      while (cycle_len--) {
+        forward = forward->next;
+      }
+      auto back = head;
+      while (forward != back) {
+        forward = forward->next;
+        back = back->next;
+      }
+      return forward;
+    }
+  }
   return nullptr;
 }
-void HasCycleWrapper(TimedExecutor& executor,
-                     const shared_ptr<ListNode<int>>& head, int cycle_idx) {
+void HasCycleWrapper(TimedExecutor &executor,
+                     const shared_ptr<ListNode<int>> &head, int cycle_idx) {
   int cycle_length = 0;
   if (cycle_idx != -1) {
     if (!head) {
@@ -65,7 +91,7 @@ void HasCycleWrapper(TimedExecutor& executor,
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "head", "cycle_idx"};
   return GenericTestMain(args, "is_list_cyclic.cc", "is_list_cyclic.tsv",

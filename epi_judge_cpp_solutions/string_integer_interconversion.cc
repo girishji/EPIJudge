@@ -19,11 +19,11 @@ string IntToString(int x) {
     x /= 10;
   } while (x);
 
-  s += is_negative ? "-" : "";  // Adds the negative sign back if is_negative.
+  s += is_negative ? "-" : ""; // Adds the negative sign back if is_negative.
   return {rbegin(s), rend(s)};
 }
 
-int StringToInt(const string& s) {
+int StringToInt(const string &s) {
   return (s[0] == '-' ? -1 : 1) *
          accumulate(begin(s) + (s[0] == '-' || s[0] == '+'), end(s), 0,
                     [](int running_sum, char c) {
@@ -31,7 +31,7 @@ int StringToInt(const string& s) {
                     });
 }
 
-void Wrapper(int x, const string& s) {
+void Wrapper(int x, const string &s) {
   if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
   }
@@ -41,7 +41,7 @@ void Wrapper(int x, const string& s) {
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "s"};
   return GenericTestMain(args, "string_integer_interconversion.cc",

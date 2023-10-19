@@ -1,7 +1,14 @@
 #include "test_framework/generic_test.h"
 unsigned long long Multiply(unsigned long long x, unsigned long long y) {
-  // TODO - you fill in here.
-  return 0;
+  unsigned long long result{0};
+  while (y) {
+    if (y & 1) {
+      result += x;
+    }
+    y >>= 1;
+    x <<= 1;
+  }
+  return result;
 }
 
 int main(int argc, char* argv[]) {

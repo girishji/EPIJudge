@@ -1,6 +1,8 @@
 package epi;
+
 import epi.test_framework.EpiTest;
 import epi.test_framework.GenericTest;
+
 public class Gcd {
   @EpiTest(testDataFile = "gcd.tsv")
 
@@ -13,7 +15,8 @@ public class Gcd {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "Gcd.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

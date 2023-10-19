@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class TaskPairing {
-  @EpiUserType(ctorParams = {Integer.class, Integer.class})
+  @EpiUserType(ctorParams = { Integer.class, Integer.class })
 
   public static class PairedTasks {
     public Integer task1;
@@ -29,7 +29,7 @@ public class TaskPairing {
         return false;
       }
 
-      PairedTasks that = (PairedTasks)o;
+      PairedTasks that = (PairedTasks) o;
 
       return task1.equals(that.task1) && task2.equals(that.task2);
     }
@@ -42,8 +42,7 @@ public class TaskPairing {
 
   @EpiTest(testDataFile = "task_pairing.tsv")
 
-  public static List<PairedTasks>
-  optimumTaskAssignment(List<Integer> taskDurations) {
+  public static List<PairedTasks> optimumTaskAssignment(List<Integer> taskDurations) {
 
     Collections.sort(taskDurations);
     List<PairedTasks> optimumAssignments = new ArrayList<>();
@@ -58,7 +57,8 @@ public class TaskPairing {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TaskPairing.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

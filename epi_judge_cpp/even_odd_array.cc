@@ -6,11 +6,26 @@
 #include "test_framework/timed_executor.h"
 using std::vector;
 
-void EvenOdd(vector<int>* A_ptr) {
+void EvenOdd(vector<int> *A_ptr) {
   // TODO - you fill in here.
+  auto &A{*A_ptr};
+
+  auto j{A.size() - 1};
+  for (auto i = 0; i < j; ++i) {
+    if (A[i] % 2 != 0) {
+      for (; j > i; --j) {
+        if (A[j] % 2 == 0) {
+          A[i] ^= A[j];
+          A[j] ^= A[i];
+          A[i] ^= A[j];
+          break;
+        }
+      }
+    }
+  }
   return;
 }
-void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
+void EvenOddWrapper(TimedExecutor &executor, vector<int> A) {
   std::multiset<int> before(begin(A), end(A));
 
   executor.Run([&] { EvenOdd(&A); });
@@ -32,7 +47,7 @@ void EvenOddWrapper(TimedExecutor& executor, vector<int> A) {
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "A"};
   return GenericTestMain(args, "even_odd_array.cc", "even_odd_array.tsv",

@@ -1,5 +1,8 @@
 #include <algorithm>
 #include <functional>
+#include <iterator>
+#include <numeric>
+#include <random>
 #include <unordered_map>
 #include <vector>
 
@@ -10,14 +13,29 @@ using std::abs;
 using std::bind;
 using std::unordered_map;
 using std::vector;
-int NonuniformRandomNumberGeneration(const vector<int>& values,
-                                     const vector<double>& probabilities) {
-  // TODO - you fill in here.
-  return 0;
+
+int GenRandom(int max) {
+  std::random_device seed;
+  static std::mt19937 gen{seed()};                   // seed the generator
+  static std::uniform_int_distribution dist{0, max}; // set min and max
+  int guess = dist(gen);                             // generate number
+  return guess;
+}
+
+int NonuniformRandomNumberGeneration(const vector<int> &values,
+                                     const vector<double> &probabilities) {
+  auto interval = values.size() * 1000;
+  int x = GenRandom(interval);
+  vector<double> sums(probabilities.size());
+  std::partial_sum(probabilities.begin(), probabilities.end(), std::back_inserter(sums));
+  auto selected =
+      std::upper_bound(sums.begin(), sums.end(), x / 1000.0);
+  auto dist = std::distance(sums.begin(), selected);
+  return values[dist + 1];
 }
 bool NonuniformRandomNumberGenerationRunner(
-    TimedExecutor& executor, const vector<int>& values,
-    const vector<double>& probabilities) {
+    TimedExecutor &executor, const vector<int> &values,
+    const vector<double> &probabilities) {
   constexpr int kN = 1000000;
   vector<int> results;
 
@@ -47,14 +65,14 @@ bool NonuniformRandomNumberGenerationRunner(
 }
 
 void NonuniformRandomNumberGenerationWrapper(
-    TimedExecutor& executor, const vector<int>& values,
-    const vector<double>& probabilities) {
+    TimedExecutor &executor, const vector<int> &values,
+    const vector<double> &probabilities) {
   RunFuncWithRetries(bind(NonuniformRandomNumberGenerationRunner,
                           std::ref(executor), std::cref(values),
                           std::cref(probabilities)));
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "values", "probabilities"};
   return GenericTestMain(args, "nonuniform_random_number.cc",

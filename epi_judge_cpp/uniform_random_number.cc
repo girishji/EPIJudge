@@ -1,3 +1,4 @@
+#include <cmath>
 #include <functional>
 #include <random>
 #include <vector>
@@ -18,9 +19,28 @@ int ZeroOneRandom() {
 
 int UniformRandom(int lower_bound, int upper_bound) {
   // TODO - you fill in here.
-  return 0;
+  // return 0;
+
+  int result{lower_bound};
+  // for (auto i = lower_bound; i < upper_bound; ++i) {
+  //   result += ZeroOneRandom();
+  // }
+
+  while (true) {
+    for (auto i = 0; i <= std::floor(std::log2(upper_bound - lower_bound));
+         i++) {
+      result <<= 1;
+      result += ZeroOneRandom();
+    }
+    if (result <= upper_bound) {
+      return result;
+    } else {
+      result = lower_bound;
+    }
+  }
+  return -1;
 }
-bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
+bool UniformRandomRunner(TimedExecutor &executor, int lower_bound,
                          int upper_bound) {
   using namespace test_framework;
   vector<int> result;
@@ -36,13 +56,13 @@ bool UniformRandomRunner(TimedExecutor& executor, int lower_bound,
                                         0.01);
 }
 
-void UniformRandomWrapper(TimedExecutor& executor, int lower_bound,
+void UniformRandomWrapper(TimedExecutor &executor, int lower_bound,
                           int upper_bound) {
   RunFuncWithRetries(
       bind(UniformRandomRunner, std::ref(executor), lower_bound, upper_bound));
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "lower_bound",
                                        "upper_bound"};

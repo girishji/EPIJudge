@@ -9,17 +9,17 @@ public class SubstringMatch {
   // Returns the index of the first character of the substring if found, -1
   // otherwise.
   public static int rabinKarp(String t, String s) {
-
     if (s.length() > t.length()) {
       return -1; // s is not a substring of t.
     }
 
     final int BASE = 26;
     int tHash = 0, sHash = 0; // Hash codes for the substring of t and s.
-    int powerS = 1;           // BASE^|s-1|.
+    int powerS = 1; // BASE^|s-1|.
     for (int i = 0; i < s.length(); i++) {
       powerS = i > 0 ? powerS * BASE : 1;
       tHash = tHash * BASE + t.charAt(i);
+
       sHash = sHash * BASE + s.charAt(i);
     }
 
@@ -45,7 +45,8 @@ public class SubstringMatch {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SubstringMatch.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

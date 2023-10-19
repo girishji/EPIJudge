@@ -13,7 +13,7 @@ using std::pair;
 using std::unordered_map;
 
 class LruCache {
- public:
+public:
   LruCache(size_t capacity) {}
 
   explicit LruCache(int capacity) : capacity_(capacity) {}
@@ -56,11 +56,11 @@ class LruCache {
     }
   }
 
- private:
+private:
   using Table = unordered_map<int, pair<list<int>::iterator, int>>;
 
   // Forces this key-value pair to move to the front.
-  void MoveToFront(int isbn, const Table::iterator& it) {
+  void MoveToFront(int isbn, const Table::iterator &it) {
     lru_queue_.erase(it->second.first);
     lru_queue_.emplace_front(isbn);
     it->second.first = begin(lru_queue_);
@@ -80,16 +80,16 @@ struct Op {
 namespace test_framework {
 template <>
 struct SerializationTrait<Op> : UserSerTrait<Op, std::string, int, int> {};
-}  // namespace test_framework
+} // namespace test_framework
 
-void LruCacheTester(const std::vector<Op>& commands) {
+void LruCacheTester(const std::vector<Op> &commands) {
   if (commands.empty() || commands[0].code != "LruCache") {
     throw std::runtime_error("Expected LruCache as first command");
   }
   LruCache cache(commands[0].arg1);
 
   for (int i = 1; i < commands.size(); i++) {
-    auto& cmd = commands[i];
+    auto &cmd = commands[i];
     if (cmd.code == "lookup") {
       int result = cache.Lookup(cmd.arg1);
       if (result != cmd.arg2) {

@@ -1,17 +1,31 @@
 #include "test_framework/generic_test.h"
 long long SwapBits(long long x, int i, int j) {
-  if (i == j) {
-    return x;
-  }
-  long long one = 1;
-  short ib = (x >> i) & one;
-  short jb = (x >> j) & one;
-  // std::cout << std::bitset<64>(x) << std::endl;
-  if (ib != jb) {
-    x ^= one << i;
-    x ^= one << j;
+  if (i != j) {
+    if (((x >> i) & 1) != ((x >> j) & 1)) {
+      unsigned long long one = 1;
+      x ^= (one << i);
+      x ^= (one << j);
+    }
   }
   return x;
+
+
+
+
+
+
+  // if (i == j) {
+  //   return x;
+  // }
+  // long long one = 1;
+  // short ib = (x >> i) & one;
+  // short jb = (x >> j) & one;
+  // // std::cout << std::bitset<64>(x) << std::endl;
+  // if (ib != jb) {
+  //   x ^= one << i;
+  //   x ^= one << j;
+  // }
+  // return x;
 }
 
 int main(int argc, char *argv[]) {

@@ -32,7 +32,8 @@ public class LookAndSay {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "LookAndSay.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

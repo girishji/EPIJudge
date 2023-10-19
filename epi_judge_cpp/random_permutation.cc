@@ -1,4 +1,5 @@
 #include <functional>
+#include <numeric>
 #include <vector>
 
 #include "test_framework/generic_test.h"
@@ -7,7 +8,8 @@
 using std::bind;
 using std::vector;
 vector<int> ComputeRandomPermutation(int n) {
-  // TODO - you fill in here.
+  vector<int> permut(n);
+  std::iota(permut.begin(), permut.end(), 0);
   return {};
 }
 int Factorial(int n) { return n <= 1 ? 1 : n * Factorial(n - 1); }

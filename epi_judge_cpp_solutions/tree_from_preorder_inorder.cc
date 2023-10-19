@@ -11,11 +11,13 @@ using std::unique_ptr;
 using std::unordered_map;
 using std::vector;
 
-unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorderHelper(
-    const vector<int>&, int, int, int, int, const unordered_map<int, int>&);
+unique_ptr<BinaryTreeNode<int>>
+BinaryTreeFromPreorderInorderHelper(const vector<int> &, int, int, int, int,
+                                    const unordered_map<int, int> &);
 
-unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
-    const vector<int>& preorder, const vector<int>& inorder) {
+unique_ptr<BinaryTreeNode<int>>
+BinaryTreeFromPreorderInorder(const vector<int> &preorder,
+                              const vector<int> &inorder) {
   unordered_map<int, int> node_to_inorder_idx;
   for (int i = 0; i < size(inorder); ++i) {
     node_to_inorder_idx.emplace(inorder[i], i);
@@ -28,9 +30,9 @@ unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorder(
 // Builds the subtree with preorder[preorder_start, preorder_end - 1] and
 // inorder[inorder_start, inorder_end - 1].
 unique_ptr<BinaryTreeNode<int>> BinaryTreeFromPreorderInorderHelper(
-    const vector<int>& preorder, int preorder_start, int preorder_end,
+    const vector<int> &preorder, int preorder_start, int preorder_end,
     int inorder_start, int inorder_end,
-    const unordered_map<int, int>& node_to_inorder_idx) {
+    const unordered_map<int, int> &node_to_inorder_idx) {
   if (preorder_end <= preorder_start || inorder_end <= inorder_start) {
     return nullptr;
   }

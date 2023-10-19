@@ -11,9 +11,23 @@ class GraphVertex:
 
 
 def is_deadlocked(graph: List[GraphVertex]) -> bool:
-    # TODO - you fill in here.
-    return True
 
+    def back_edge(node, seen):
+        for n in node.edges:
+            if n in seen:
+                return True
+            seen.append(n)
+            if back_edge(n, seen):
+                return True
+        return False
+
+    for node in graph:
+        seen = [node]
+        if back_edge(node, seen):
+            return True
+    return False
+        
+        
 
 @enable_executor_hook
 def is_deadlocked_wrapper(executor, num_nodes, edges):

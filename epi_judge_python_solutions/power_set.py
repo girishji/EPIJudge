@@ -2,7 +2,6 @@ from typing import List
 
 from test_framework import generic_test, test_utils
 
-
 def generate_power_set(input_set: List[int]) -> List[List[int]]:
 
     # Generate all subsets whose intersection with input_set[0], ...,

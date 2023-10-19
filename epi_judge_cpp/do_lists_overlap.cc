@@ -6,12 +6,88 @@
 #include "test_framework/test_failure.h"
 #include "test_framework/timed_executor.h"
 
+shared_ptr<ListNode<int>> CycleNode(shared_ptr<ListNode<int>> head) {
+  auto slow{head}, fast{head};
+
+  while (fast && fast->next) {
+    slow = slow->next;
+    fast = fast->next->next;
+
+    if (slow == fast) {
+      int clen = 0;
+      do {
+        clen++;
+        slow = slow->next;
+      } while (slow != fast);
+
+      auto front = head;
+      while (clen--) {
+        front = front->next;
+      }
+
+      auto back = head;
+      while (front != back) {
+        front = front->next;
+        back = back->next;
+      }
+      return front;
+    }
+  }
+  while (slow->next) {
+    slow = slow->next;
+  }
+  return slow;
+}
+
 shared_ptr<ListNode<int>> OverlappingLists(shared_ptr<ListNode<int>> l0,
                                            shared_ptr<ListNode<int>> l1) {
-  // TODO - you fill in here.
+  if (!l0 || !l1) {
+    return nullptr;
+  }
+  auto cycle0 = CycleNode(l0);
+  auto cycle1 = CycleNode(l1);
+  if (cycle0->next && cycle1->next) {
+    bool overlap = cycle0 == cycle1 ? true : false;
+    if (!overlap) {
+      for (auto ptr = cycle0->next; ptr != cycle0; ptr = ptr->next) {
+        if (ptr == cycle1) {
+          overlap = true;
+        }
+      }
+    }
+    return overlap ? cycle0 : nullptr;
+  }
+
+  auto Count = [](shared_ptr<ListNode<int>> p) {
+    int count = 0;
+    while (p->next) {
+      count++;
+      p = p->next;
+    }
+    return count;
+  };
+
+  auto AdvancePtr = [](shared_ptr<ListNode<int>> &p, int count) {
+    while (count--) {
+      p = p->next;
+    }
+  };
+
+  if (!cycle0->next && !cycle1->next) {
+    if (cycle0 == cycle1) {
+      int count0 = Count(l0);
+      int count1 = Count(l1);
+      AdvancePtr(count0 > count1 ? l0 : l1, abs(count0 - count1));
+      while (l0 != l1) {
+        l0 = l0->next;
+        l1 = l1->next;
+      }
+      return l0;
+    }
+  }
   return nullptr;
 }
-void OverlappingListsWrapper(TimedExecutor& executor,
+void OverlappingListsWrapper(TimedExecutor &executor,
                              shared_ptr<ListNode<int>> l0,
                              shared_ptr<ListNode<int>> l1,
                              shared_ptr<ListNode<int>> common, int cycle0,
@@ -83,7 +159,7 @@ void OverlappingListsWrapper(TimedExecutor& executor,
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"executor", "l0",     "l1",
                                        "common",   "cycle0", "cycle1"};

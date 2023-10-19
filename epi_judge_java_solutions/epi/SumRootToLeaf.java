@@ -8,11 +8,11 @@ public class SumRootToLeaf {
 
   public static int sumRootToLeaf(BinaryTreeNode<Integer> tree) {
 
-    return sumRootToLeafHelper(tree, /*partialPathSum=*/0);
+    return sumRootToLeafHelper(tree, /* partialPathSum= */0);
   }
 
   private static int sumRootToLeafHelper(BinaryTreeNode<Integer> tree,
-                                         int partialPathSum) {
+      int partialPathSum) {
     if (tree == null) {
       return 0;
     }
@@ -30,7 +30,8 @@ public class SumRootToLeaf {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SumRootToLeaf.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

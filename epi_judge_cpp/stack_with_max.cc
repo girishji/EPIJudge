@@ -6,24 +6,34 @@
 using std::length_error;
 
 class Stack {
- public:
-  bool Empty() const {
-    // TODO - you fill in here.
-    return true;
-  }
-  int Max() const {
-    // TODO - you fill in here.
-    return 0;
-  }
+public:
+  bool Empty() const { return cached_stack.empty(); }
+  int Max() const { 
+    if (cached_stack.empty()) {
+      throw length_error("Stack is empty");
+    }
+    return cached_stack.top().max; }
   int Pop() {
-    // TODO - you fill in here.
-    return 0;
+    if (cached_stack.empty()) {
+      throw length_error("Stack is empty");
+    }
+    int top = cached_stack.top().data;
+    cached_stack.pop();
+    return top;
   }
   void Push(int x) {
-    // TODO - you fill in here.
+    cached_stack.push({x, x > cached_stack.top().max ? x : Max()});
     return;
   }
+
+private:
+  struct StackNode {
+    int data;
+    int max;
+  };
+  std::stack<struct StackNode> cached_stack;
 };
+
 struct StackOp {
   std::string op;
   int argument;
@@ -32,12 +42,12 @@ struct StackOp {
 namespace test_framework {
 template <>
 struct SerializationTrait<StackOp> : UserSerTrait<StackOp, std::string, int> {};
-}  // namespace test_framework
+} // namespace test_framework
 
-void StackTester(const std::vector<StackOp>& ops) {
+void StackTester(const std::vector<StackOp> &ops) {
   try {
     Stack s;
-    for (auto& x : ops) {
+    for (auto &x : ops) {
       if (x.op == "Stack") {
         continue;
       } else if (x.op == "push") {
@@ -64,12 +74,12 @@ void StackTester(const std::vector<StackOp>& ops) {
         throw std::runtime_error("Unsupported stack operation: " + x.op);
       }
     }
-  } catch (length_error&) {
+  } catch (length_error &) {
     throw TestFailure("Unexpected length_error exception");
   }
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"ops"};
   return GenericTestMain(args, "stack_with_max.cc", "stack_with_max.tsv",

@@ -24,7 +24,6 @@ public class TreePreorder {
   public static List<Integer> preorderTraversal(BinaryTreeNode<Integer> tree) {
 
     List<Integer> result = new ArrayList<>();
-
     Deque<NodeAndState> inProcess = new ArrayDeque<>();
     inProcess.addFirst(new NodeAndState(tree, false));
     while (!inProcess.isEmpty()) {
@@ -46,7 +45,8 @@ public class TreePreorder {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TreePreorder.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

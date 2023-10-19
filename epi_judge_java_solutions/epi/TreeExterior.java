@@ -7,19 +7,24 @@ import epi.test_framework.TimedExecutor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.LinkedTransferQueue;
 
 public class TreeExterior {
 
-  public static List<BinaryTreeNode<Integer>>
-  exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
+  public static List<BinaryTreeNode<Integer>> exteriorBinaryTree(BinaryTreeNode<Integer> tree) {
 
     if (tree == null) {
       return Collections.emptyList();
     }
 
+    // HashMap<Integer, Integer> foo = new HashMap<>();
+
     List<BinaryTreeNode<Integer>> exterior = new ArrayList<>() {
-      { add(tree); }
+      {
+        add(tree);
+      }
     };
     leftBoundary(tree.left, exterior);
     leaves(tree.left, exterior);
@@ -30,7 +35,7 @@ public class TreeExterior {
 
   // Computes the nodes from the root to the leftmost leaf.
   private static void leftBoundary(BinaryTreeNode<Integer> subtree,
-                                   List<BinaryTreeNode<Integer>> exterior) {
+      List<BinaryTreeNode<Integer>> exterior) {
     if (subtree == null || (subtree.left == null && subtree.right == null)) {
       return;
     }
@@ -44,7 +49,7 @@ public class TreeExterior {
 
   // Computes the nodes from the rightmost leaf to the root.
   private static void rightBoundary(BinaryTreeNode<Integer> subtree,
-                                    List<BinaryTreeNode<Integer>> exterior) {
+      List<BinaryTreeNode<Integer>> exterior) {
     if (subtree == null || (subtree.left == null && subtree.right == null)) {
       return;
     }
@@ -58,7 +63,7 @@ public class TreeExterior {
 
   // Compute the leaves in left-to-right order.
   private static void leaves(BinaryTreeNode<Integer> subtree,
-                             List<BinaryTreeNode<Integer>> exterior) {
+      List<BinaryTreeNode<Integer>> exterior) {
     if (subtree == null) {
       return;
     }
@@ -83,11 +88,9 @@ public class TreeExterior {
   }
 
   @EpiTest(testDataFile = "tree_exterior.tsv")
-  public static List<Integer>
-  exteriorBinaryTreeWrapper(TimedExecutor executor,
-                            BinaryTreeNode<Integer> tree) throws Exception {
-    List<BinaryTreeNode<Integer>> result =
-        executor.run(() -> exteriorBinaryTree(tree));
+  public static List<Integer> exteriorBinaryTreeWrapper(TimedExecutor executor,
+      BinaryTreeNode<Integer> tree) throws Exception {
+    List<BinaryTreeNode<Integer>> result = executor.run(() -> exteriorBinaryTree(tree));
 
     return createOutputList(result);
   }
@@ -96,7 +99,8 @@ public class TreeExterior {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TreeExterior.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

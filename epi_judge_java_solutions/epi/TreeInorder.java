@@ -15,8 +15,10 @@ public class TreeInorder {
     public Boolean leftSubtreeTraversed;
 
     public NodeAndState(BinaryTreeNode<Integer> node,
-                        Boolean leftSubtreeTraversed) {
+        Boolean leftSubtreeTraversed) {
       this.node = node;
+      // LinkedList<Intger> foo;
+      // LinkedList<Integer> foo;
       this.leftSubtreeTraversed = leftSubtreeTraversed;
     }
   }
@@ -27,7 +29,7 @@ public class TreeInorder {
     List<Integer> result = new ArrayList<>();
 
     Deque<NodeAndState> inProcess = new ArrayDeque<>();
-    inProcess.addFirst(new NodeAndState(tree, /*leftSubtreeTraversed=*/false));
+    inProcess.addFirst(new NodeAndState(tree, /* leftSubtreeTraversed= */false));
     while (!inProcess.isEmpty()) {
       NodeAndState nodeAndState = inProcess.removeFirst();
       if (nodeAndState.node != null) {
@@ -35,11 +37,11 @@ public class TreeInorder {
           result.add(nodeAndState.node.data);
         } else {
           inProcess.addFirst(new NodeAndState(nodeAndState.node.right,
-                                              /*leftSubtreeTraversed=*/false));
+              /* leftSubtreeTraversed= */false));
           inProcess.addFirst(new NodeAndState(nodeAndState.node,
-                                              /*leftSubtreeTraversed=*/true));
+              /* leftSubtreeTraversed= */true));
           inProcess.addFirst(new NodeAndState(nodeAndState.node.left,
-                                              /*leftSubtreeTraversed=*/false));
+              /* leftSubtreeTraversed= */false));
         }
       }
     }
@@ -50,7 +52,8 @@ public class TreeInorder {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TreeInorder.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

@@ -20,8 +20,8 @@ using std::random_device;
 using std::unordered_map;
 using std::vector;
 
-int NonuniformRandomNumberGeneration(const vector<int>& values,
-                                     const vector<double>& probabilities) {
+int NonuniformRandomNumberGeneration(const vector<int> &values,
+                                     const vector<double> &probabilities) {
   vector<double> prefix_sums_of_probabilities;
   // Creating the endpoints for the intervals corresponding to the
   // probabilities.
@@ -41,8 +41,8 @@ int NonuniformRandomNumberGeneration(const vector<int>& values,
 }
 
 bool NonuniformRandomNumberGenerationRunner(
-    TimedExecutor& executor, const vector<int>& values,
-    const vector<double>& probabilities) {
+    TimedExecutor &executor, const vector<int> &values,
+    const vector<double> &probabilities) {
   constexpr int kN = 1000000;
   vector<int> results;
 
@@ -72,8 +72,8 @@ bool NonuniformRandomNumberGenerationRunner(
 }
 
 void NonuniformRandomNumberGenerationWrapper(
-    TimedExecutor& executor, const vector<int>& values,
-    const vector<double>& probabilities) {
+    TimedExecutor &executor, const vector<int> &values,
+    const vector<double> &probabilities) {
   RunFuncWithRetries(bind(NonuniformRandomNumberGenerationRunner,
                           std::ref(executor), std::cref(values),
                           std::cref(probabilities)));

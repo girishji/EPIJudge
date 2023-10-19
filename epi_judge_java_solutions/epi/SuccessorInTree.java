@@ -30,7 +30,7 @@ public class SuccessorInTree {
 
   @EpiTest(testDataFile = "successor_in_tree.tsv")
   public static int findSuccessorWrapper(TimedExecutor executor,
-                                         BinaryTree<Integer> tree, int nodeIdx)
+      BinaryTree<Integer> tree, int nodeIdx)
       throws Exception {
     BinaryTree<Integer> n = BinaryTreeUtils.mustFindNode(tree, nodeIdx);
 
@@ -43,7 +43,8 @@ public class SuccessorInTree {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SuccessorInTree.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

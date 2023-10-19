@@ -4,7 +4,6 @@ from test_framework import generic_test
 
 
 def has_two_sum(A: List[int], t: int) -> bool:
-
     i, j = 0, len(A) - 1
 
     while i <= j:

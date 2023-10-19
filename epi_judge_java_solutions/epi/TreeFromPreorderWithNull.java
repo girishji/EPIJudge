@@ -12,16 +12,14 @@ public class TreeFromPreorderWithNull {
   // Global variable, tracks current subtree.
   private static Integer subtreeIdx;
 
-  public static BinaryTreeNode<Integer>
-  reconstructPreorder(List<Integer> preorder) {
+  public static BinaryTreeNode<Integer> reconstructPreorder(List<Integer> preorder) {
 
     subtreeIdx = 0;
     return reconstructPreorderSubtree(preorder);
   }
 
   // Reconstructs the subtree that is rooted at subtreeIdx.
-  private static BinaryTreeNode<Integer>
-  reconstructPreorderSubtree(List<Integer> preorder) {
+  private static BinaryTreeNode<Integer> reconstructPreorderSubtree(List<Integer> preorder) {
     Integer subtreeKey = preorder.get(subtreeIdx);
     ++subtreeIdx;
     if (subtreeKey == null) {
@@ -35,8 +33,7 @@ public class TreeFromPreorderWithNull {
   }
 
   @EpiTest(testDataFile = "tree_from_preorder_with_null.tsv")
-  public static BinaryTreeNode<Integer>
-  reconstructPreorderWrapper(TimedExecutor executor, List<String> strings)
+  public static BinaryTreeNode<Integer> reconstructPreorderWrapper(TimedExecutor executor, List<String> strings)
       throws Exception {
     List<Integer> ints = new ArrayList<>();
     for (String s : strings) {
@@ -54,7 +51,8 @@ public class TreeFromPreorderWithNull {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TreeFromPreorderWithNull.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

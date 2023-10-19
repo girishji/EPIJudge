@@ -70,7 +70,8 @@ public class AbsentValueArray {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "AbsentValueArray.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -8,6 +9,31 @@
 using std::vector;
 void Rearrange(vector<int>* A_ptr) {
   // TODO - you fill in here.
+  auto &A{*A_ptr};
+  // std::for_each(A.begin(), A.end(), [](const int x) {std::cout << " " << x;});
+
+  if (A.empty() || (A.size() == 1)) {
+    return;
+  }
+  auto bigger {true}, swap{false};
+  for (auto it = A.begin() + 1; it != A.end(); it++) {
+    if (bigger) {
+      if (*it < *(it - 1)) {
+        swap = true;
+      }
+    } else {
+      if (*it > *(it - 1)) {
+        swap = true;
+      }
+    }
+    if (swap) {
+      // std::cout << "swap " << *it << " " << *(it - 1) << std::endl;
+      swap = false;
+      std::swap(*it, *(it - 1));
+    }
+    bigger = !bigger;
+  }
+
   return;
 }
 void CheckAnswer(const vector<int>& A) {

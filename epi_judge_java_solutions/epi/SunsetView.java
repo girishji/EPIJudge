@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// asdf 
+
 public class SunsetView {
 
   private static class BuildingWithHeight {
@@ -21,16 +23,14 @@ public class SunsetView {
     }
   }
 
-  public static List<Integer>
-  examineBuildingsWithSunset(Iterator<Integer> sequence) {
+  public static List<Integer> examineBuildingsWithSunset(Iterator<Integer> sequence) {
 
     int buildingIdx = 0;
     Deque<BuildingWithHeight> candidates = new ArrayDeque<>();
     while (sequence.hasNext()) {
       Integer buildingHeight = sequence.next();
       while (!candidates.isEmpty() &&
-             (Integer.compare(buildingHeight, candidates.peekFirst().height) >=
-              0)) {
+          (Integer.compare(buildingHeight, candidates.peekFirst().height) >= 0)) {
         candidates.removeFirst();
       }
       candidates.addFirst(
@@ -40,8 +40,7 @@ public class SunsetView {
   }
 
   @EpiTest(testDataFile = "sunset_view.tsv")
-  public static List<Integer>
-  examineBuildingsWithSunsetWrapper(List<Integer> sequence) {
+  public static List<Integer> examineBuildingsWithSunsetWrapper(List<Integer> sequence) {
     return examineBuildingsWithSunset(sequence.iterator());
   }
 
@@ -49,7 +48,8 @@ public class SunsetView {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SunsetView.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

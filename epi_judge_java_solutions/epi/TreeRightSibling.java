@@ -13,7 +13,9 @@ public class TreeRightSibling {
     public BinaryTreeNode<T> left, right;
     public BinaryTreeNode<T> next = null; // Populates this field.
 
-    public BinaryTreeNode(T data) { this.data = data; }
+    public BinaryTreeNode(T data) {
+      this.data = data;
+    }
 
     @Override
     public T getData() {
@@ -39,8 +41,7 @@ public class TreeRightSibling {
     }
   }
 
-  private static void
-  populateLowerLevelNextField(BinaryTreeNode<Integer> startNode) {
+  private static void populateLowerLevelNextField(BinaryTreeNode<Integer> startNode) {
     while (startNode != null && startNode.left != null) {
       // Populate left child's next field.
       startNode.left.next = startNode.right;
@@ -53,8 +54,7 @@ public class TreeRightSibling {
     }
   }
 
-  private static BinaryTreeNode<Integer>
-  cloneTree(BinaryTree<Integer> original) {
+  private static BinaryTreeNode<Integer> cloneTree(BinaryTree<Integer> original) {
     if (original == null) {
       return null;
     }
@@ -65,8 +65,7 @@ public class TreeRightSibling {
   }
 
   @EpiTest(testDataFile = "tree_right_sibling.tsv")
-  public static List<List<Integer>>
-  constructRightSiblingWrapper(TimedExecutor executor, BinaryTree<Integer> tree)
+  public static List<List<Integer>> constructRightSiblingWrapper(TimedExecutor executor, BinaryTree<Integer> tree)
       throws Exception {
     BinaryTreeNode<Integer> cloned = cloneTree(tree);
 
@@ -91,7 +90,8 @@ public class TreeRightSibling {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "TreeRightSibling.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

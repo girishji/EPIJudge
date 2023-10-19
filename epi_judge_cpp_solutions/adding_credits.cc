@@ -15,14 +15,14 @@ using std::unordered_map;
 using std::unordered_set;
 
 class ClientsCreditsInfo {
- public:
-  void Insert(const string& client_id, int c) {
+public:
+  void Insert(const string &client_id, int c) {
     Remove(client_id);
     client_to_credit_.emplace(client_id, c - offset_);
     credit_to_clients_[c - offset_].emplace(client_id);
   }
 
-  bool Remove(const string& client_id) {
+  bool Remove(const string &client_id) {
     if (auto credit_iter = client_to_credit_.find(client_id);
         credit_iter != end(client_to_credit_)) {
       credit_to_clients_[credit_iter->second].erase(client_id);
@@ -35,7 +35,7 @@ class ClientsCreditsInfo {
     return false;
   }
 
-  int Lookup(const string& client_id) const {
+  int Lookup(const string &client_id) const {
     auto credit_iter = client_to_credit_.find(client_id);
     return credit_iter == cend(client_to_credit_)
                ? -1
@@ -51,13 +51,13 @@ class ClientsCreditsInfo {
                : *cbegin(iter->second);
   }
 
-  friend std::ostream& operator<<(std::ostream& os,
-                                  const ClientsCreditsInfo& info) {
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const ClientsCreditsInfo &info) {
     PrintTo(os, info.credit_to_clients_);
     return os;
   }
 
- private:
+private:
   int offset_ = 0;
   unordered_map<string, int> client_to_credit_;
   map<int, unordered_set<string>> credit_to_clients_;
@@ -69,7 +69,7 @@ struct Operation {
   int i_arg;
 };
 
-std::ostream& operator<<(std::ostream& out, const Operation& op) {
+std::ostream &operator<<(std::ostream &out, const Operation &op) {
   return out << FmtStr("{}({}, {})", op.op, op.s_arg, op.i_arg);
 }
 
@@ -77,11 +77,11 @@ namespace test_framework {
 template <>
 struct SerializationTrait<Operation>
     : UserSerTrait<Operation, std::string, std::string, int> {};
-}  // namespace test_framework
-void ClientsCreditsInfoTester(const std::vector<Operation>& ops) {
+} // namespace test_framework
+void ClientsCreditsInfoTester(const std::vector<Operation> &ops) {
   ClientsCreditsInfo cr;
   int op_idx = 0;
-  for (auto& op : ops) {
+  for (auto &op : ops) {
     if (op.op == "ClientsCreditsInfo") {
       continue;
     } else if (op.op == "remove") {

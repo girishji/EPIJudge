@@ -16,12 +16,10 @@ public class SudokuSolve {
   private static final int EMPTY_ENTRY = 0;
 
   public static boolean solveSudoku(List<List<Integer>> partialAssignment) {
-
     return solvePartialSudoku(0, 0, partialAssignment);
   }
 
-  private static boolean
-  solvePartialSudoku(int i, int j, List<List<Integer>> partialAssignment) {
+  private static boolean solvePartialSudoku(int i, int j, List<List<Integer>> partialAssignment) {
     if (i == partialAssignment.size()) {
       i = 0; // Starts a new row.
       if (++j == partialAssignment.get(i).size()) {
@@ -32,6 +30,7 @@ public class SudokuSolve {
     // Skips nonempty entries.
     if (partialAssignment.get(i).get(j) != EMPTY_ENTRY) {
       return solvePartialSudoku(i + 1, j, partialAssignment);
+
     }
 
     for (int val = 1; val <= partialAssignment.size(); ++val) {
@@ -53,7 +52,7 @@ public class SudokuSolve {
   }
 
   private static boolean validToAddVal(List<List<Integer>> partialAssignment,
-                                       int i, int j, int val) {
+      int i, int j, int val) {
     // Check row constraints.
     if (partialAssignment.stream().anyMatch(row -> row.get(j) == val)) {
       return false;
@@ -65,12 +64,11 @@ public class SudokuSolve {
     }
 
     // Check region constraints.
-    int regionSize = (int)Math.sqrt(partialAssignment.size());
+    int regionSize = (int) Math.sqrt(partialAssignment.size());
     int I = i / regionSize, J = j / regionSize;
     for (int a = 0; a < regionSize; ++a) {
       for (int b = 0; b < regionSize; ++b) {
-        if (val ==
-            partialAssignment.get(regionSize * I + a).get(regionSize * J + b)) {
+        if (val == partialAssignment.get(regionSize * I + a).get(regionSize * J + b)) {
           return false;
         }
       }
@@ -80,7 +78,7 @@ public class SudokuSolve {
 
   @EpiTest(testDataFile = "sudoku_solve.tsv")
   public static void solveSudokuWrapper(TimedExecutor executor,
-                                        List<List<Integer>> partialAssignment)
+      List<List<Integer>> partialAssignment)
       throws Exception {
     List<List<Integer>> solved = new ArrayList<>();
     for (List<Integer> row : partialAssignment) {
@@ -104,7 +102,7 @@ public class SudokuSolve {
           throw new TestFailure("Initial cell assignment has been changed");
     }
 
-    int blockSize = (int)Math.sqrt(solved.size());
+    int blockSize = (int) Math.sqrt(solved.size());
     for (int i = 0; i < solved.size(); i++) {
       assertUniqueSeq(solved.get(i));
       assertUniqueSeq(gatherColumn(solved, i));
@@ -137,7 +135,7 @@ public class SudokuSolve {
   }
 
   private static List<Integer> gatherSquareBlock(List<List<Integer>> data,
-                                                 int blockSize, int n) {
+      int blockSize, int n) {
     List<Integer> result = new ArrayList<>();
     int blockX = n % blockSize;
     int blockY = n / blockSize;
@@ -154,7 +152,8 @@ public class SudokuSolve {
     System.exit(
         GenericTest
             .runFromAnnotations(args, "SudokuSolve.java",
-                                new Object() {}.getClass().getEnclosingClass())
+                new Object() {
+                }.getClass().getEnclosingClass())
             .ordinal());
   }
 }

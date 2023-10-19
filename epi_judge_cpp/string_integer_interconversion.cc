@@ -1,49 +1,58 @@
-#include <string>
 #include <iostream>
+#include <string>
 
 #include "test_framework/generic_test.h"
 #include "test_framework/test_failure.h"
 using std::string;
 
 string IntToString(int x) {
-  // bool isneg = false;
-  // if (x < 0) {
-  //   isneg = true;
-  //   x = -x;
-  // }
-  bool isneg = x < 0 ? true : false;
-  unsigned int xx = isneg ? -x : x;
-  string res;
-  do {
-    res = static_cast<char>(xx % 10 + '0') + res;
-    xx /= 10;
-  } while (xx > 0);  
-  if (isneg) {
-    res = '-' + res;
+  long xx = x;
+  auto negative = (xx < 0);
+  std::deque<char> num;
+  xx = abs(xx);
+  if (xx == 0) {
+    num.push_back('0');
   }
-  return res;
+  while (xx) {
+    char digit = '0' + xx % 10;
+    xx /= 10;
+    num.push_front(digit);
+  }
+  if (negative) {
+    num.push_front('-');
+  }
+  return string(num.begin(), num.end());
+
+  // // bool isneg = false;
+  // // if (x < 0) {
+  // //   isneg = true;
+  // //   x = -x;
+  // // }
+  // bool isneg = x < 0 ? true : false;
+  // unsigned int xx = isneg ? -x : x;
+  // string res;
+  // do {
+  //   res = static_cast<char>(xx % 10 + '0') + res;
+  //   xx /= 10;
+  // } while (xx > 0);
+  // if (isneg) {
+  //   res = '-' + res;
+  // }
+  // return res;
 }
 
-int StringToInt(const string& s) {
-  bool isneg = false;
-  int res = 0;
-  // for (size_t i = s.size() - 1; i >= 0; i--) {
-  for (size_t i = 0; i < s.size(); i++) {
-    if (isdigit(s[i])) {
+int StringToInt(const string &s) {
+  long res = 0;
+  for (auto &ch : s) {
+    if (ch != '-' && ch != '+') {
       res *= 10;
-      res += static_cast<int>(s[i] - '0');
-    } else if (s[i] == '-' && i == 0) {
-      isneg = true;
-    } else {
-
+      res += ch - '0';
     }
   }
-  if (isneg) {
-    res = -res;
-  }
+  res = s.front() == '-' ? -res : res;
   return res;
 }
-void Wrapper(int x, const string& s) {
+void Wrapper(int x, const string &s) {
   if (stoi(IntToString(x)) != x) {
     throw TestFailure("Int to string conversion failed");
   }
@@ -53,9 +62,9 @@ void Wrapper(int x, const string& s) {
   }
 }
 
-int main(int argc, char* argv[]) {
-// string foo = IntToString(-2147483648);
-// std::cout << foo  << std::endl;
+int main(int argc, char *argv[]) {
+  // string foo = IntToString(-2147483648);
+  // std::cout << foo  << std::endl;
   std::vector<std::string> args{argv + 1, argv + argc};
   std::vector<std::string> param_names{"x", "s"};
   return GenericTestMain(args, "string_integer_interconversion.cc",
